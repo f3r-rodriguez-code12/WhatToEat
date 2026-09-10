@@ -4,6 +4,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
+import com.ferdev.whattoeatapp.data.dao.DiaDao
+import com.ferdev.whattoeatapp.data.dao.HorarioDao
+import com.ferdev.whattoeatapp.data.dao.PlatoDao
+import com.ferdev.whattoeatapp.data.dao.RestauranteDao
+import com.ferdev.whattoeatapp.data.dao.RestaurantePlatoDao
 
 @Database(
     entities = [
