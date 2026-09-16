@@ -10,6 +10,9 @@ interface DiaDao {
     @Insert
     suspend fun insert(dia: Dia)
 
+    @Insert
+    suspend fun insertAll(dias: List<Dia>)
+
     @Query("SELECT * FROM DIA")
     suspend fun getAll(): List<Dia>
 }
