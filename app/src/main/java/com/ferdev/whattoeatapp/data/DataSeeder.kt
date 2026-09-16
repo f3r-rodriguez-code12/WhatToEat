@@ -60,6 +60,21 @@ class DataSeeder(private val database: AppDatabase) {
                 Horario(dia_id = 7, start = 600, end = 1200, restaurant_id = idSecondRest)
             )
             database.horarioDao().insertAll(horariosSecondRest)
+
+            val firstRestRelationship = listOf(
+                RestaurantePlato(restaurant_id = idFirstRest, plato_id = 2),
+                RestaurantePlato(restaurant_id = idFirstRest, plato_id = 4),
+                RestaurantePlato(restaurant_id = idFirstRest, plato_id = 6)
+            )
+            database.restaurantePlatoDao().insertAll(firstRestRelationship)
+
+            val secondRestRelationship = listOf(
+                RestaurantePlato(restaurant_id = idSecondRest, plato_id = 1),
+                RestaurantePlato(restaurant_id = idSecondRest, plato_id = 3),
+                RestaurantePlato(restaurant_id = idSecondRest, plato_id = 5),
+                RestaurantePlato(restaurant_id = idSecondRest, plato_id = 7)
+            )
+            database.restaurantePlatoDao().insertAll(secondRestRelationship)
         }
     }
 }
