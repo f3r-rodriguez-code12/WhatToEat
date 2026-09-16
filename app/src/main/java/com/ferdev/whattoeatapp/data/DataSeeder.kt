@@ -28,6 +28,20 @@ class DataSeeder(private val database: AppDatabase) {
                 Plato(name = "Enrrollado")
             )
             database.platoDao().insertAll(platos)
+
+            val firstRestaurant = Restaurante(
+                name = "Planchitas Originales (El Prado)",
+                address = "Av. José Ballivian entre C. La Paz y Oruro",
+                phone = "78310109"
+            )
+            val idFirstRest = database.restauranteDao().insert(firstRestaurant).toInt()
+
+            val secondRestaurant = Restaurante(
+                name = "Doña Pola",
+                address = "Av. America esq. Av. Gualberto Villarroel",
+                phone = "62604567"
+            )
+            val idSecondRest = database.restauranteDao().insert(secondRestaurant).toInt()
         }
     }
 }
