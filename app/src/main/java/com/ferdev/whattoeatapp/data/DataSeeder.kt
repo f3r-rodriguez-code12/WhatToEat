@@ -17,6 +17,17 @@ class DataSeeder(private val database: AppDatabase) {
                 Dia(7, "Sun")
             )
             database.diaDao().insertAll(dias)
+
+            val platos = listOf(
+                Plato(name = "Chicharron"),
+                Plato(name = "Charque"),
+                Plato(name = "Escabeche"),
+                Plato(name = "Planchita"),
+                Plato(name = "Huminta"),
+                Plato(name = "Pique"),
+                Plato(name = "Enrrollado")
+            )
+            database.platoDao().insertAll(platos)
         }
     }
 }

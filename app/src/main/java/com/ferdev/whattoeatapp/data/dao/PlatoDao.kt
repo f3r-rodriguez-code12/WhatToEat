@@ -10,6 +10,9 @@ interface PlatoDao {
     @Insert
     suspend fun insert(plato: Plato)
 
+    @Insert
+    suspend fun insertAll(platos: List<Plato>)
+
     @Query("SELECT * FROM PLATO")
     suspend fun getAll(): List<Plato>
 }
