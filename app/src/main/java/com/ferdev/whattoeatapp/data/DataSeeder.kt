@@ -42,6 +42,24 @@ class DataSeeder(private val database: AppDatabase) {
                 phone = "62604567"
             )
             val idSecondRest = database.restauranteDao().insert(secondRestaurant).toInt()
+
+            val horariosFirstRest = listOf(
+                Horario(dia_id = 2, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Horario(dia_id = 3, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Horario(dia_id = 4, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Horario(dia_id = 5, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Horario(dia_id = 6, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Horario(dia_id = 7, start = 660, end = 1290, restaurant_id = idFirstRest)
+            )
+            database.horarioDao().insertAll(horariosFirstRest)
+
+            val horariosSecondRest = listOf(
+                Horario(dia_id = 1, start = 600, end = 1200, restaurant_id = idSecondRest),
+                Horario(dia_id = 5, start = 720, end = 1200, restaurant_id = idSecondRest),
+                Horario(dia_id = 6, start = 660, end = 1200, restaurant_id = idSecondRest),
+                Horario(dia_id = 7, start = 600, end = 1200, restaurant_id = idSecondRest)
+            )
+            database.horarioDao().insertAll(horariosSecondRest)
         }
     }
 }

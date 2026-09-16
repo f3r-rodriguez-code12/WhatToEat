@@ -10,6 +10,9 @@ interface HorarioDao {
     @Insert
     suspend fun insert(horario: Horario)
 
+    @Insert
+    suspend fun insertAll(horarios: List<Horario>)
+
     @Query("SELECT * FROM HORARIO WHERE restaurant_id = :restaurantId")
     suspend fun getByRestaurant(restaurantId: Int): List<Horario>
 }
