@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.DataSeeder
+import com.ferdev.whattoeatapp.ui.RegistroScreen
 import com.ferdev.whattoeatapp.ui.theme.WhatToEatAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WhatToEatAppTheme {
-                // RegistroScreen(database = database)
+                RegistroScreen(database = database)
             }
         }
     }
