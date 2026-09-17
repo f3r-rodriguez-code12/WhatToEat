@@ -41,7 +41,15 @@ fun RegistroScreen(database: AppDatabase) {
     val availableDishes = remember { mutableStateListOf<Plato>() }
     val selectedDishes = remember { mutableStateListOf<Plato>() }
 
-    LoadDishes(database, availableDishes)
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            val platos = database.platoDao().getAll()
+            withContext(Dispatchers.Main) {
+                availableDishes.clear()
+                availableDishes.addAll(platos)
+            }
+        }
+    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -233,22 +241,6 @@ fun RegistroScreen(database: AppDatabase) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Guardar Restaurante")
-            }
-        }
-    }
-}
-
-@Composable
-private fun LoadDishes(
-    database: AppDatabase,
-    availableDishes: SnapshotStateList<Plato>
-) {
-    LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
-            val platos = database.platoDao().getAll()
-            withContext(Dispatchers.Main) {
-                availableDishes.clear()
-                availableDishes.addAll(platos)
             }
         }
     }
