@@ -62,7 +62,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
+    // Coroutines
     implementation(platform(libs.kotlin.platform.bom))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    // Navigation Compose
+    implementation(libs.androidx.navigation.compose)
 }
