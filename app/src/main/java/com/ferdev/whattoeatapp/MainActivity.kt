@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.DataSeeder
 import com.ferdev.whattoeatapp.ui.RegistroScreen
@@ -27,7 +30,25 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WhatToEatAppTheme {
-                RegistroScreen(database = database)
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "register"
+                ) {
+                    composable("home") {
+                    }
+
+                    composable("register") {
+                        RegistroScreen(
+                            database = database,
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+
+                    composable("search") {
+                    }
+                }
             }
         }
     }
