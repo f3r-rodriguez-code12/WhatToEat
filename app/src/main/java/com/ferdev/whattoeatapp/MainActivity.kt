@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.DataSeeder
+import com.ferdev.whattoeatapp.ui.HomeScreen
 import com.ferdev.whattoeatapp.ui.RegistroScreen
 import com.ferdev.whattoeatapp.ui.theme.WhatToEatAppTheme
 
@@ -34,9 +35,13 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "register"
+                    startDestination = "home"
                 ) {
                     composable("home") {
+                        HomeScreen(
+                            onGoToRegister = { navController.navigate("register") },
+                            onGoToSearch = { navController.navigate("search") }
+                        )
                     }
 
                     composable("register") {
@@ -47,6 +52,10 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("search") {
+                        //BusquedaScreen(
+                        //    database = database,
+                        //    onBack = { navController.popBackStack() }
+                        //)
                     }
                 }
             }
