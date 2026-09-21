@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.DataSeeder
+import com.ferdev.whattoeatapp.ui.BusquedaScreen
 import com.ferdev.whattoeatapp.ui.HomeScreen
 import com.ferdev.whattoeatapp.ui.RegistroScreen
 import com.ferdev.whattoeatapp.ui.theme.WhatToEatAppTheme
@@ -52,10 +53,10 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("search") {
-                        //BusquedaScreen(
-                        //    database = database,
-                        //    onBack = { navController.popBackStack() }
-                        //)
+                        BusquedaScreen(
+                            database = database,
+                            onBack = { navController.popBackStack() }
+                        )
                     }
                 }
             }
