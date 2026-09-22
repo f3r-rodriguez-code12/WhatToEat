@@ -1,19 +1,30 @@
 package com.ferdev.whattoeatapp.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.Plato
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.ferdev.whattoeatapp.data.Restaurante
+import kotlinx.coroutines.launch
+
+data class SearchResult(
+    val restaurante: Restaurante,
+    val horariosText: String,
+    val platosText: String
+)
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -21,11 +32,17 @@ fun BusquedaScreen(
     database: AppDatabase,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     var selectedDay by remember { mutableStateOf<Int?>(null) }
     var desdeTime by remember { mutableStateOf("") }
     var hastaTime by remember { mutableStateOf("") }
     val selectedDishes = remember { mutableStateListOf<Plato>() }
     val availableDishes = remember { mutableStateListOf<Plato>() }
+
+    var resultados by remember { mutableStateOf<List<SearchResult>>(emptyList()) }
+    var searchDone by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -138,7 +155,45 @@ fun BusquedaScreen(
                     }
                 }
 
+                Button(
+                    onClick = {
+                        scope.launch {
+                            searchDone = true
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                ) {
+                    Icon(Icons.Default.Search, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("SEARCH!", fontSize = 18.sp)
+                }
+
                 Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            if (searchDone) {
+                Text(
+                    text = "Results (${resultados.size}):",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
+                if (resultados.isEmpty()) {
+                    Text(
+                        text = "😔 No restaurantes found con esos filters!",
+                        modifier = Modifier.padding(16.dp)
+                    )
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(resultados) { result ->
+                        }
+                    }
+                }
             }
         }
     }
