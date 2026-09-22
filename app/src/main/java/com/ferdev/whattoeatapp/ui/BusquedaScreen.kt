@@ -172,6 +172,13 @@ fun BusquedaScreen(
                 Button(
                     onClick = {
                         scope.launch {
+                            resultados = performSearch(
+                                database = database,
+                                day = selectedDay,
+                                desdeTime = desdeTime,
+                                hastaTime = hastaTime,
+                                platos = selectedDishes.toList()
+                            )
                             searchDone = true
                         }
                     },
@@ -235,4 +242,95 @@ fun ResultCard(result: SearchResult) {
             Spacer(modifier = Modifier.height(4.dp))
         }
     }
+}
+
+// ====================
+//     FILTER LOGIC
+// ====================
+suspend fun performSearch(
+    database: AppDatabase,
+    day: Int?,
+    desdeTime: String,
+    hastaTime: String,
+    platos: List<Plato>
+): List<SearchResult> {
+    return withContext(Dispatchers.IO) {
+        val results = mutableListOf<SearchResult>()
+        val allRestaurants = database.restauranteDao().getAll()
+
+        for (rest in allRestaurants) {
+            // Filter by DIA
+            if (day != null) {
+                val schedules = database.horarioDao().getByRestaurant(rest.id)
+                val isOpenThatDay = schedules.any { it.dia_id == day }
+                if (!isOpenThatDay) continue
+            }
+
+            // Filter by TIME RANGE
+            if (desdeTime.isNotBlank() && hastaTime.isNotBlank() && day != null) {
+                val fromMin = timeToMinutes(desdeTime)
+                val toMin = timeToMinutes(hastaTime)
+                if (fromMin == -1 || toMin == -1) continue
+
+                val schedules = database.horarioDao().getByRestaurant(rest.id)
+                val daySchedule = schedules.find { it.dia_id == day } ?: continue
+
+                val overlaps = daySchedule.start <= toMin && daySchedule.end >= fromMin
+                if (!overlaps) continue
+            }
+
+            // Filter by PLATOS
+            if (platos.isNotEmpty()) {
+                val relations = database.restaurantePlatoDao().getByRestaurant(rest.id)
+                val restaurantDishIds = relations.map { it.plato_id }
+                val searchedDishIds = platos.map { it.id }
+                val hasAnyDish = searchedDishIds.any { it in restaurantDishIds }
+                if (!hasAnyDish) continue
+            }
+
+            val schedules = database.horarioDao().getByRestaurant(rest.id)
+            val horariosText = schedules.joinToString(", ") { s ->
+                val dayName = getDayName(s.dia_id)
+                "${dayName}: ${minutesToTime(s.start)}-${minutesToTime(s.end)}"
+            }
+
+            val relations = database.restaurantePlatoDao().getByRestaurant(rest.id)
+            val allDishes = database.platoDao().getAll()
+            val platosText = relations.mapNotNull { rel ->
+                allDishes.find { it.id == rel.plato_id }?.name
+            }.joinToString(", ")
+
+            results.add(
+                SearchResult(
+                    restaurante = rest,
+                    horariosText = horariosText,
+                    platosText = platosText
+                )
+            )
+        }
+
+        results
+    }
+}
+
+private fun timeToMinutes(timeStr: String): Int {
+    return try {
+        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date = format.parse(timeStr) ?: return -1
+        date.hours * 60 + date.minutes
+    } catch (e: Exception) {
+        -1
+    }
+}
+
+private fun minutesToTime(min: Int): String {
+    val h = min / 60
+    val m = min % 60
+    return String.format("%02d:%02d", h, m)
+}
+
+private fun getDayName(id: Int): String = when (id) {
+    1 -> "Mon"; 2 -> "Tue"; 3 -> "Wed"; 4 -> "Thu"
+    5 -> "Fri"; 6 -> "Sat"; 7 -> "Sun"
+    else -> "?"
 }
