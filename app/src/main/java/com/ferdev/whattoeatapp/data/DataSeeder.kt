@@ -25,7 +25,9 @@ class DataSeeder(private val database: AppDatabase) {
                 Plato(name = "Planchita"),
                 Plato(name = "Huminta"),
                 Plato(name = "Pique"),
-                Plato(name = "Enrrollado")
+                Plato(name = "Enrrollado"),
+                Plato(name = "Sushi"),
+                Plato(name = "Pescado a la parrilla")
             )
             database.platoDao().insertAll(platos)
 
