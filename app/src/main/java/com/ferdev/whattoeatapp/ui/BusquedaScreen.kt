@@ -18,7 +18,11 @@ import androidx.compose.ui.unit.sp
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.Plato
 import com.ferdev.whattoeatapp.data.Restaurante
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 data class SearchResult(
     val restaurante: Restaurante,
@@ -43,6 +47,16 @@ fun BusquedaScreen(
 
     var resultados by remember { mutableStateOf<List<SearchResult>>(emptyList()) }
     var searchDone by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            val platos = database.platoDao().getAll()
+            withContext(Dispatchers.Main) {
+                availableDishes.clear()
+                availableDishes.addAll(platos)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -191,10 +205,34 @@ fun BusquedaScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(resultados) { result ->
+                            ResultCard(result)
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ResultCard(result: SearchResult) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = result.restaurante.name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = "📍 ${result.restaurante.address}", fontSize = 14.sp)
+            Text(text = "📞 ${result.restaurante.phone}", fontSize = 14.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "🕐 ${result.horariosText}", fontSize = 14.sp)
+            Text(text = "🍽️ ${result.platosText}", fontSize = 14.sp)
+            Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }
