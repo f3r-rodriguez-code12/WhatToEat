@@ -267,16 +267,32 @@ suspend fun performSearch(
             }
 
             // Filter by TIME RANGE
-            if (desdeTime.isNotBlank() && hastaTime.isNotBlank() && day != null) {
-                val fromMin = timeToMinutes(desdeTime)
-                val toMin = timeToMinutes(hastaTime)
-                if (fromMin == -1 || toMin == -1) continue
+            val hasTimeFilter = desdeTime.isNotBlank() || hastaTime.isNotBlank()
 
+            if (hasTimeFilter && day != null) {
                 val schedules = database.horarioDao().getByRestaurant(rest.id)
                 val daySchedule = schedules.find { it.dia_id == day } ?: continue
 
-                val overlaps = daySchedule.start <= toMin && daySchedule.end >= fromMin
-                if (!overlaps) continue
+                val fromMin = if (desdeTime.isNotBlank()) timeToMinutes(desdeTime) else null
+                val toMin = if (hastaTime.isNotBlank()) timeToMinutes(hastaTime) else null
+
+                if (fromMin == -1) continue
+                if (toMin == -1) continue
+
+                val passes = when {
+                    fromMin != null && toMin != null -> {
+                        daySchedule.start <= toMin && daySchedule.end >= fromMin
+                    }
+                    fromMin != null -> {
+                        daySchedule.end >= fromMin
+                    }
+                    toMin != null -> {
+                        daySchedule.start <= toMin
+                    }
+                    else -> true
+                }
+
+                if (!passes) continue
             }
 
             // Filter by PLATOS
