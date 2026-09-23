@@ -45,36 +45,36 @@ class DataSeeder(private val database: AppDatabase) {
             )
             val idSecondRest = database.restaurantDao().insert(secondRestaurant).toInt()
 
-            val horariosFirstRest = listOf(
-                Horario(day_id = 2, start = 660, end = 1290, restaurant_id = idFirstRest),
-                Horario(day_id = 3, start = 660, end = 1290, restaurant_id = idFirstRest),
-                Horario(day_id = 4, start = 660, end = 1290, restaurant_id = idFirstRest),
-                Horario(day_id = 5, start = 660, end = 1290, restaurant_id = idFirstRest),
-                Horario(day_id = 6, start = 660, end = 1290, restaurant_id = idFirstRest),
-                Horario(day_id = 7, start = 660, end = 1290, restaurant_id = idFirstRest)
+            val horariosFirstRests = listOf(
+                Schedule(day_id = 2, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Schedule(day_id = 3, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Schedule(day_id = 4, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Schedule(day_id = 5, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Schedule(day_id = 6, start = 660, end = 1290, restaurant_id = idFirstRest),
+                Schedule(day_id = 7, start = 660, end = 1290, restaurant_id = idFirstRest)
             )
-            database.scheduleDao().insertAll(horariosFirstRest)
+            database.scheduleDao().insertAll(horariosFirstRests)
 
-            val horariosSecondRest = listOf(
-                Horario(day_id = 1, start = 600, end = 1200, restaurant_id = idSecondRest),
-                Horario(day_id = 5, start = 720, end = 1200, restaurant_id = idSecondRest),
-                Horario(day_id = 6, start = 660, end = 1200, restaurant_id = idSecondRest),
-                Horario(day_id = 7, start = 600, end = 1200, restaurant_id = idSecondRest)
+            val horariosSecondRests = listOf(
+                Schedule(day_id = 1, start = 600, end = 1200, restaurant_id = idSecondRest),
+                Schedule(day_id = 5, start = 720, end = 1200, restaurant_id = idSecondRest),
+                Schedule(day_id = 6, start = 660, end = 1200, restaurant_id = idSecondRest),
+                Schedule(day_id = 7, start = 600, end = 1200, restaurant_id = idSecondRest)
             )
-            database.scheduleDao().insertAll(horariosSecondRest)
+            database.scheduleDao().insertAll(horariosSecondRests)
 
             val firstRestRelationship = listOf(
-                RestaurantePlato(restaurant_id = idFirstRest, dish_id = 2),
-                RestaurantePlato(restaurant_id = idFirstRest, dish_id = 4),
-                RestaurantePlato(restaurant_id = idFirstRest, dish_id = 6)
+                RestaurantDish(restaurant_id = idFirstRest, dish_id = 2),
+                RestaurantDish(restaurant_id = idFirstRest, dish_id = 4),
+                RestaurantDish(restaurant_id = idFirstRest, dish_id = 6)
             )
             database.restaurantDishDao().insertAll(firstRestRelationship)
 
             val secondRestRelationship = listOf(
-                RestaurantePlato(restaurant_id = idSecondRest, dish_id = 1),
-                RestaurantePlato(restaurant_id = idSecondRest, dish_id = 3),
-                RestaurantePlato(restaurant_id = idSecondRest, dish_id = 5),
-                RestaurantePlato(restaurant_id = idSecondRest, dish_id = 7)
+                RestaurantDish(restaurant_id = idSecondRest, dish_id = 1),
+                RestaurantDish(restaurant_id = idSecondRest, dish_id = 3),
+                RestaurantDish(restaurant_id = idSecondRest, dish_id = 5),
+                RestaurantDish(restaurant_id = idSecondRest, dish_id = 7)
             )
             database.restaurantDishDao().insertAll(secondRestRelationship)
         }

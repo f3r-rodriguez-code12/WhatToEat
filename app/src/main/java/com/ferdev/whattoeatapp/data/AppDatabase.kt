@@ -15,8 +15,8 @@ import com.ferdev.whattoeatapp.data.dao.RestaurantDishDao
         Dia::class,
         Dish::class,
         Restaurant::class,
-        Horario::class,
-        RestaurantePlato::class
+        Schedule::class,
+        RestaurantDish::class
     ],
     version = 1,
     exportSchema = false
