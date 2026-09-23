@@ -14,6 +14,7 @@ import com.ferdev.whattoeatapp.data.DataSeeder
 import com.ferdev.whattoeatapp.ui.BusquedaScreen
 import com.ferdev.whattoeatapp.ui.HomeScreen
 import com.ferdev.whattoeatapp.ui.RegistroScreen
+import com.ferdev.whattoeatapp.ui.ResultsScreen
 import com.ferdev.whattoeatapp.ui.theme.WhatToEatAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -65,6 +66,32 @@ class MainActivity : ComponentActivity() {
                                         "&dishes=${platosIds.joinToString(",")}"
                                 navController.navigate(route)
                             }
+                        )
+                    }
+
+                    composable(
+                        route = "results?day={dia}&from={from}&to={to}&dishes={platos}",
+                        arguments = listOf(
+                            navArgument("dia") { type = NavType.IntType; defaultValue = -1 },
+                            navArgument("from") { type = NavType.StringType; defaultValue = "" },
+                            navArgument("to") { type = NavType.StringType; defaultValue = "" },
+                            navArgument("platos") { type = NavType.StringType; defaultValue = "" }
+                        )
+                    ) { backStackEntry ->
+                        val day = backStackEntry.arguments?.getInt("dia")?.takeIf { it != -1 }
+                        val from = backStackEntry.arguments?.getString("from") ?: ""
+                        val to = backStackEntry.arguments?.getString("to") ?: ""
+                        val platoIdsStr = backStackEntry.arguments?.getString("platos") ?: ""
+                        val platoIds = if (platoIdsStr.isBlank()) emptyList()
+                        else platoIdsStr.split(",").mapNotNull { it.toIntOrNull() }
+
+                        ResultsScreen(
+                            database = database,
+                            day = day,
+                            desdeTime = from,
+                            hastaTime = to,
+                            platosIds = platoIds,
+                            onBack = { navController.popBackStack() }
                         )
                     }
                 }
