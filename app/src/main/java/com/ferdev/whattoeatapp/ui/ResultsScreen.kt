@@ -29,17 +29,17 @@ data class SearchResult(
 fun ResultsScreen(
     database: AppDatabase,
     day: Int?,
-    desdeTime: String,
-    hastaTime: String,
-    platosIds: List<Int>,
+    fromTime: String,
+    toTime: String,
+    dishIds: List<Int>,
     onBack: () -> Unit
 ) {
     var resultados by remember { mutableStateOf<List<SearchResult>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
-    LaunchedEffect(day, desdeTime, hastaTime, platosIds) {
+    LaunchedEffect(day, fromTime, toTime, dishIds) {
         isLoading = true
-        resultados = performSearch(database, day, desdeTime, hastaTime, platosIds)
+        resultados = performSearch(database, day, fromTime, toTime, dishIds)
         isLoading = false
     }
 

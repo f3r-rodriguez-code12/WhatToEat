@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun BusquedaScreen(
+fun SearchScreen(
     database: AppDatabase,
     onBack: () -> Unit,
     onSearchResults: (day: Int?, desdeTime: String, hastaTime: String, platosIds: List<Int>) -> Unit

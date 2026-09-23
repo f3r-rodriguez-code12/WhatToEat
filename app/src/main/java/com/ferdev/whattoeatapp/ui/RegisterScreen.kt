@@ -25,7 +25,7 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun RegistroScreen(
+fun RegisterScreen(
     database: AppDatabase,
     onBack: () -> Unit
 ) {

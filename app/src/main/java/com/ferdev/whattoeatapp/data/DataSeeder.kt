@@ -16,7 +16,7 @@ class DataSeeder(private val database: AppDatabase) {
                 Dia(6, "Sat"),
                 Dia(7, "Sun")
             )
-            database.diaDao().insertAll(dias)
+            database.dayDao().insertAll(dias)
 
             val platos = listOf(
                 Plato(name = "Chicharron"),

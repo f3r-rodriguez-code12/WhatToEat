@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.ferdev.whattoeatapp.data.Dia
 
 @Dao
-interface DiaDao {
+interface DayDao {
     @Insert
     suspend fun insert(dia: Dia)
 

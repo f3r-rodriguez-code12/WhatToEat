@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
-import com.ferdev.whattoeatapp.data.dao.DiaDao
+import com.ferdev.whattoeatapp.data.dao.DayDao
 import com.ferdev.whattoeatapp.data.dao.HorarioDao
 import com.ferdev.whattoeatapp.data.dao.PlatoDao
 import com.ferdev.whattoeatapp.data.dao.RestauranteDao
@@ -22,7 +22,7 @@ import com.ferdev.whattoeatapp.data.dao.RestaurantePlatoDao
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun diaDao(): DiaDao
+    abstract fun dayDao(): DayDao
     abstract fun platoDao(): PlatoDao
     abstract fun restauranteDao(): RestauranteDao
     abstract fun horarioDao(): HorarioDao
