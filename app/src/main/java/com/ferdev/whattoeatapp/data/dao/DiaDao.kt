@@ -15,4 +15,7 @@ interface DiaDao {
 
     @Query("SELECT * FROM DIA")
     suspend fun getAll(): List<Dia>
+
+    @Query("SELECT COUNT(*) FROM DIA")
+    suspend fun getCount(): Int
 }

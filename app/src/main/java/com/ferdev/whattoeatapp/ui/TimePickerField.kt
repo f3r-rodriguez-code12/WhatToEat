@@ -29,6 +29,7 @@ fun TimePickerField(
             label = { Text(label) },
             placeholder = { Text("HH:MM") },
             readOnly = true,
+            enabled = false,
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.Schedule,

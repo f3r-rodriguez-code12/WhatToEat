@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,6 +17,9 @@ import com.ferdev.whattoeatapp.ui.HomeScreen
 import com.ferdev.whattoeatapp.ui.RegistroScreen
 import com.ferdev.whattoeatapp.ui.ResultsScreen
 import com.ferdev.whattoeatapp.ui.theme.WhatToEatAppTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     private lateinit var database: AppDatabase
@@ -26,11 +30,19 @@ class MainActivity : ComponentActivity() {
 
         database = AppDatabase.getInstance(this)
 
-        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val isSeeded = prefs.getBoolean("data_seeded", false)
-        if (!isSeeded) {
-            DataSeeder(database).seedData()
-            prefs.edit().putBoolean("data_seeded", true).apply()
+        lifecycleScope.launch {
+            val dayCount = withContext(Dispatchers.IO) {
+                database.diaDao().getCount()
+            }
+
+            android.util.Log.d("SEEDER", "Day count in DB: $dayCount")
+
+            if (dayCount == 0) {
+                android.util.Log.d("SEEDER", "DB is empty. Running seeder...")
+                DataSeeder(database).seedData()
+            } else {
+                android.util.Log.d("SEEDER", "DB already has data. Skipping seeder.")
+            }
         }
 
         setContent {
