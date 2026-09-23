@@ -41,7 +41,7 @@ fun HomeScreen(
             )
 
             Text(
-                text = "What do you quieres to eat hoy?",
+                text = "What do you want to eat today?",
                 fontSize = 16.sp,
                 modifier = Modifier.padding(bottom = 48.dp)
             )
@@ -67,7 +67,7 @@ fun HomeScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Registrar Restaurant", fontSize = 18.sp)
+                Text("Register Restaurant", fontSize = 18.sp)
             }
         }
     }
