@@ -21,7 +21,7 @@ import androidx.room.ForeignKey
         )
     ]
 )
-data class Horario(
+data class Schedule(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val day_id: Int,

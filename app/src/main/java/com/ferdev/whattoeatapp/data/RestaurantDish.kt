@@ -21,7 +21,7 @@ import androidx.room.ForeignKey
         )
     ]
 )
-data class RestaurantePlato(
+data class RestaurantDish(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val restaurant_id: Int,

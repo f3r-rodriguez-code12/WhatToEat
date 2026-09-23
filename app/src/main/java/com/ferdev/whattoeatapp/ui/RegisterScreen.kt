@@ -1,5 +1,6 @@
 package com.ferdev.whattoeatapp.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,14 +14,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ferdev.whattoeatapp.data.AppDatabase
-import com.ferdev.whattoeatapp.data.Horario
+import com.ferdev.whattoeatapp.data.Schedule
 import com.ferdev.whattoeatapp.data.Dish
 import com.ferdev.whattoeatapp.data.Restaurant
-import com.ferdev.whattoeatapp.data.RestaurantePlato
+import com.ferdev.whattoeatapp.data.RestaurantDish
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -29,12 +31,11 @@ fun RegisterScreen(
     database: AppDatabase,
     onBack: () -> Unit
 ) {
-
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     var restaurantName by remember { mutableStateOf("") }
-    var restaurantDirection by remember { mutableStateOf("") }
+    var restaurantAddress by remember { mutableStateOf("") }
     var restaurantPhone by remember { mutableStateOf("") }
     var startHour by remember { mutableStateOf("") }
     var endHour by remember { mutableStateOf("") }
@@ -46,10 +47,10 @@ fun RegisterScreen(
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
-            val platos = database.dishDao().getAll()
+            val dishes = database.dishDao().getAll()
             withContext(Dispatchers.Main) {
                 availableDishes.clear()
-                availableDishes.addAll(platos)
+                availableDishes.addAll(dishes)
             }
         }
     }
@@ -80,15 +81,15 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = restaurantName,
                 onValueChange = { restaurantName = it },
-                label = { Text("Nombre del restaurante") },
+                label = { Text("Restaurant name") },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
                 singleLine = true
             )
 
             OutlinedTextField(
-                value = restaurantDirection,
-                onValueChange = { restaurantDirection = it },
-                label = { Text("Dirección") },
+                value = restaurantAddress,
+                onValueChange = { restaurantAddress = it },
+                label = { Text("Address") },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
                 singleLine = true
             )
@@ -102,12 +103,12 @@ fun RegisterScreen(
             )
 
             Text(
-                text = "Días de atención:",
+                text = "Operating days:",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
 
-            val dias = listOf(
+            val days = listOf(
                 1 to "Mon", 2 to "Tue", 3 to "Wed", 4 to "Thu",
                 5 to "Fri", 6 to "Sat", 7 to "Sun"
             )
@@ -116,7 +117,7 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                dias.forEach { (id, label) ->
+                days.forEach { (id, label) ->
                     FilterChip(
                         selected = selectedDays.contains(id),
                         onClick = {
@@ -132,7 +133,7 @@ fun RegisterScreen(
             }
 
             Text(
-                text = "Horario de atención (formato HH:MM):",
+                text = "Operating hours (HH:MM format):",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
@@ -144,19 +145,19 @@ fun RegisterScreen(
                 TimePickerField(
                     value = startHour,
                     onValueChange = { startHour = it },
-                    label = "Apertura",
+                    label = "Opening",
                     modifier = Modifier.weight(1f)
                 )
                 TimePickerField(
                     value = endHour,
                     onValueChange = { endHour = it },
-                    label = "Cierre",
+                    label = "Closing",
                     modifier = Modifier.weight(1f)
                 )
             }
 
             Text(
-                text = "Platos que sirve:",
+                text = "Served dishes:",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
@@ -165,35 +166,35 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                availableDishes.forEach { plato ->
+                availableDishes.forEach { dish ->
                     FilterChip(
-                        selected = selectedDishes.contains(plato),
+                        selected = selectedDishes.contains(dish),
                         onClick = {
-                            if (selectedDishes.contains(plato)) {
-                                selectedDishes.remove(plato)
+                            if (selectedDishes.contains(dish)) {
+                                selectedDishes.remove(dish)
                             } else {
-                                selectedDishes.add(plato)
+                                selectedDishes.add(dish)
                             }
                         },
-                        label = { Text(plato.name) }
+                        label = { Text(dish.name) }
                     )
                 }
             }
 
             Button(
                 onClick = {
-                    if (restaurantName.isBlank() || restaurantDirection.isBlank() || restaurantPhone.isBlank() ||
+                    if (restaurantName.isBlank() || restaurantAddress.isBlank() || restaurantPhone.isBlank() ||
                         startHour.isBlank() || endHour.isBlank()
                     ) {
-                        android.widget.Toast.makeText(context, "Complete all the fields", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Complete all the fields", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
                     if (selectedDays.isEmpty()) {
-                        android.widget.Toast.makeText(context, "Select at least one day", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Select at least one day", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
                     if (selectedDishes.isEmpty()) {
-                        android.widget.Toast.makeText(context, "Select at least one plato", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Select at least one dish", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
 
@@ -201,37 +202,37 @@ fun RegisterScreen(
                     val endMinutes = hoursToMinutes(endHour)
 
                     if (startMinutes == -1 || endMinutes == -1) {
-                        android.widget.Toast.makeText(context, "Formato de hora inválido (usa HH:MM)", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Invalid time format (use HH:MM)", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
                     if (startMinutes >= endMinutes) {
-                        android.widget.Toast.makeText(context, "La hora de 'apertura' debe ser menor a la de 'cierre'", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Opening time must be earlier than closing time", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
 
                     scope.launch(Dispatchers.IO) {
                         try {
                             val restaurantId = database.restaurantDao().insert(
-                                Restaurant(name = restaurantName, address = restaurantDirection, phone = restaurantPhone)
+                                Restaurant(name = restaurantName, address = restaurantAddress, phone = restaurantPhone)
                             ).toInt()
 
-                            selectedDays.forEach { diaId ->
+                            selectedDays.forEach { dayId ->
                                 database.scheduleDao().insert(
-                                    Horario(day_id = diaId, start = startMinutes, end = endMinutes, restaurant_id = restaurantId)
+                                    Schedule(day_id = dayId, start = startMinutes, end = endMinutes, restaurant_id = restaurantId)
                                 )
                             }
 
-                            selectedDishes.forEach { plato ->
+                            selectedDishes.forEach { dish ->
                                 database.restaurantDishDao().insert(
-                                    RestaurantePlato(restaurant_id = restaurantId, dish_id = plato.id)
+                                    RestaurantDish(restaurant_id = restaurantId, dish_id = dish.id)
                                 )
                             }
 
                             withContext(Dispatchers.Main) {
-                                android.widget.Toast.makeText(context, "¡Restaurant guardado!", android.widget.Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Restaurant saved successfully!", Toast.LENGTH_LONG).show()
 
                                 restaurantName = ""
-                                restaurantDirection = ""
+                                restaurantAddress = ""
                                 restaurantPhone = ""
                                 startHour = ""
                                 endHour = ""
@@ -240,24 +241,29 @@ fun RegisterScreen(
                             }
                         } catch (e: Exception) {
                             withContext(Dispatchers.Main) {
-                                android.widget.Toast.makeText(context, "Error: ${e.message}", android.widget.Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                             }
                         }
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Guardar Restaurant")
+                Text("Save Restaurant")
             }
         }
     }
 }
 
-private fun hoursToMinutes(horaStr: String): Int {
+private fun hoursToMinutes(hourStr: String): Int {
     return try {
         val format = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = format.parse(horaStr) ?: return -1
-        date.hours * 60 + date.minutes
+        val date = format.parse(hourStr) ?: return -1
+
+        val calendar = Calendar.getInstance().apply { time = date }
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+
+        hour * 60 + minute
     } catch (e: Exception) {
         -1
     }
