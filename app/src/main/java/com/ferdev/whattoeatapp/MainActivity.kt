@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.DataSeeder
 import com.ferdev.whattoeatapp.ui.BusquedaScreen
@@ -55,7 +57,14 @@ class MainActivity : ComponentActivity() {
                     composable("search") {
                         BusquedaScreen(
                             database = database,
-                            onBack = { navController.popBackStack() }
+                            onBack = { navController.popBackStack() },
+                            onSearchResults = { dia, desdeTime, hastaTime, platosIds ->
+                                val route = "results?day=${dia ?: -1}" +
+                                        "&from=${desdeTime}" +
+                                        "&to=${hastaTime}" +
+                                        "&dishes=${platosIds.joinToString(",")}"
+                                navController.navigate(route)
+                            }
                         )
                     }
                 }
