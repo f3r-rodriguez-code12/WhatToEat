@@ -65,108 +65,108 @@ fun BusquedaScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-                Text(
-                    text = "Which dia?",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+            Text(
+                text = "Which dia?",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
 
-                val dias = listOf(
-                    1 to "Mon", 2 to "Tue", 3 to "Wed", 4 to "Thu",
-                    5 to "Fri", 6 to "Sat", 7 to "Sun"
-                )
+            val dias = listOf(
+                1 to "Mon", 2 to "Tue", 3 to "Wed", 4 to "Thu",
+                5 to "Fri", 6 to "Sat", 7 to "Sun"
+            )
 
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    dias.forEach { (id, label) ->
-                        FilterChip(
-                            selected = selectedDay == id,
-                            onClick = {
-                                selectedDay = if (selectedDay == id) null else id
-                            },
-                            label = { Text(label) }
-                        )
-                    }
-                }
-
-                Text(
-                    text = "What hora? (optional)",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = desdeTime,
-                        onValueChange = { desdeTime = it },
-                        label = { Text("Desde") },
-                        placeholder = { Text("11:00") },
-                        modifier = Modifier.weight(1f),
-                        singleLine = true
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                dias.forEach { (id, label) ->
+                    FilterChip(
+                        selected = selectedDay == id,
+                        onClick = {
+                            selectedDay = if (selectedDay == id) null else id
+                        },
+                        label = { Text(label) }
                     )
-                    OutlinedTextField(
-                        value = hastaTime,
-                        onValueChange = { hastaTime = it },
-                        label = { Text("Hasta") },
-                        placeholder = { Text("16:00") },
-                        modifier = Modifier.weight(1f),
-                        singleLine = true
-                    )
-                }
-
-                Text(
-                    text = "What do you quieres to comer? (optional)",
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    availableDishes.forEach { dish ->
-                        FilterChip(
-                            selected = selectedDishes.contains(dish),
-                            onClick = {
-                                if (selectedDishes.contains(dish)) {
-                                    selectedDishes.remove(dish)
-                                } else {
-                                    selectedDishes.add(dish)
-                                }
-                            },
-                            label = { Text(dish.name) }
-                        )
-                    }
-                }
-
-                Button(
-                    onClick = {
-                        onSearchResults(
-                            selectedDay,
-                            desdeTime,
-                            hastaTime,
-                            selectedDishes.map { it.id }
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                ) {
-                    Icon(Icons.Default.Search, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("SEARCH!", fontSize = 18.sp)
                 }
             }
+
+            Text(
+                text = "What hora? (optional)",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = desdeTime,
+                    onValueChange = { desdeTime = it },
+                    label = { Text("Desde") },
+                    placeholder = { Text("11:00") },
+                    modifier = Modifier.weight(1f),
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = hastaTime,
+                    onValueChange = { hastaTime = it },
+                    label = { Text("Hasta") },
+                    placeholder = { Text("16:00") },
+                    modifier = Modifier.weight(1f),
+                    singleLine = true
+                )
+            }
+
+            Text(
+                text = "What do you quieres to comer? (optional)",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                availableDishes.forEach { dish ->
+                    FilterChip(
+                        selected = selectedDishes.contains(dish),
+                        onClick = {
+                            if (selectedDishes.contains(dish)) {
+                                selectedDishes.remove(dish)
+                            } else {
+                                selectedDishes.add(dish)
+                            }
+                        },
+                        label = { Text(dish.name) }
+                    )
+                }
+            }
+
+            Button(
+                onClick = {
+                    onSearchResults(
+                        selectedDay,
+                        desdeTime,
+                        hastaTime,
+                        selectedDishes.map { it.id }
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Icon(Icons.Default.Search, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("SEARCH!", fontSize = 18.sp)
+            }
         }
+    }
 }
