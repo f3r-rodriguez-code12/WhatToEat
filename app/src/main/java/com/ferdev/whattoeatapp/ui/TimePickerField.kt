@@ -87,7 +87,7 @@ fun TimePickerDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "Select hora",
+                text = "Select time",
                 fontWeight = FontWeight.Bold
             )
         },
@@ -111,7 +111,7 @@ fun TimePickerDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar")
+                Text("Cancel")
             }
         }
     )
