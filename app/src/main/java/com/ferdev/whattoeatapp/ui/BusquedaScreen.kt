@@ -105,21 +105,17 @@ fun BusquedaScreen(
                     .padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                OutlinedTextField(
+                TimePickerField(
                     value = desdeTime,
                     onValueChange = { desdeTime = it },
-                    label = { Text("Desde") },
-                    placeholder = { Text("11:00") },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true
+                    label = "Desde",
+                    modifier = Modifier.weight(1f)
                 )
-                OutlinedTextField(
+                TimePickerField(
                     value = hastaTime,
                     onValueChange = { hastaTime = it },
-                    label = { Text("Hasta") },
-                    placeholder = { Text("16:00") },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true
+                    label = "Hasta",
+                    modifier = Modifier.weight(1f)
                 )
             }
 

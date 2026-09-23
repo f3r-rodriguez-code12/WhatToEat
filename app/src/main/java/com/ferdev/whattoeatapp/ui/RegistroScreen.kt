@@ -141,21 +141,17 @@ fun RegistroScreen(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                OutlinedTextField(
+                TimePickerField(
                     value = startHour,
                     onValueChange = { startHour = it },
-                    label = { Text("Apertura") },
-                    placeholder = { Text("10:00") },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true
+                    label = "Apertura",
+                    modifier = Modifier.weight(1f)
                 )
-                OutlinedTextField(
+                TimePickerField(
                     value = endHour,
                     onValueChange = { endHour = it },
-                    label = { Text("Cierre") },
-                    placeholder = { Text("18:00") },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true
+                    label = "Cierre",
+                    modifier = Modifier.weight(1f)
                 )
             }
 
