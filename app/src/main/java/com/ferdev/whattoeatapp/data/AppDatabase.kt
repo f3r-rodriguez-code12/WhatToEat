@@ -5,16 +5,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
 import com.ferdev.whattoeatapp.data.dao.DayDao
-import com.ferdev.whattoeatapp.data.dao.HorarioDao
+import com.ferdev.whattoeatapp.data.dao.ScheduleDao
 import com.ferdev.whattoeatapp.data.dao.DishDao
-import com.ferdev.whattoeatapp.data.dao.RestauranteDao
-import com.ferdev.whattoeatapp.data.dao.RestaurantePlatoDao
+import com.ferdev.whattoeatapp.data.dao.RestaurantDao
+import com.ferdev.whattoeatapp.data.dao.RestaurantDishDao
 
 @Database(
     entities = [
         Dia::class,
         Dish::class,
-        Restaurante::class,
+        Restaurant::class,
         Horario::class,
         RestaurantePlato::class
     ],
@@ -24,9 +24,9 @@ import com.ferdev.whattoeatapp.data.dao.RestaurantePlatoDao
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dayDao(): DayDao
     abstract fun dishDao(): DishDao
-    abstract fun restauranteDao(): RestauranteDao
-    abstract fun horarioDao(): HorarioDao
-    abstract fun restaurantePlatoDao(): RestaurantePlatoDao
+    abstract fun restaurantDao(): RestaurantDao
+    abstract fun scheduleDao(): ScheduleDao
+    abstract fun restaurantDishDao(): RestaurantDishDao
 
     companion object {
         @Volatile

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.Horario
 import com.ferdev.whattoeatapp.data.Dish
-import com.ferdev.whattoeatapp.data.Restaurante
+import com.ferdev.whattoeatapp.data.Restaurant
 import com.ferdev.whattoeatapp.data.RestaurantePlato
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -211,24 +211,24 @@ fun RegisterScreen(
 
                     scope.launch(Dispatchers.IO) {
                         try {
-                            val restaurantId = database.restauranteDao().insert(
-                                Restaurante(name = restaurantName, address = restaurantDirection, phone = restaurantPhone)
+                            val restaurantId = database.restaurantDao().insert(
+                                Restaurant(name = restaurantName, address = restaurantDirection, phone = restaurantPhone)
                             ).toInt()
 
                             selectedDays.forEach { diaId ->
-                                database.horarioDao().insert(
-                                    Horario(dia_id = diaId, start = startMinutes, end = endMinutes, restaurant_id = restaurantId)
+                                database.scheduleDao().insert(
+                                    Horario(day_id = diaId, start = startMinutes, end = endMinutes, restaurant_id = restaurantId)
                                 )
                             }
 
                             selectedDishes.forEach { plato ->
-                                database.restaurantePlatoDao().insert(
-                                    RestaurantePlato(restaurant_id = restaurantId, plato_id = plato.id)
+                                database.restaurantDishDao().insert(
+                                    RestaurantePlato(restaurant_id = restaurantId, dish_id = plato.id)
                                 )
                             }
 
                             withContext(Dispatchers.Main) {
-                                android.widget.Toast.makeText(context, "¡Restaurante guardado!", android.widget.Toast.LENGTH_LONG).show()
+                                android.widget.Toast.makeText(context, "¡Restaurant guardado!", android.widget.Toast.LENGTH_LONG).show()
 
                                 restaurantName = ""
                                 restaurantDirection = ""
@@ -247,7 +247,7 @@ fun RegisterScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Guardar Restaurante")
+                Text("Guardar Restaurant")
             }
         }
     }

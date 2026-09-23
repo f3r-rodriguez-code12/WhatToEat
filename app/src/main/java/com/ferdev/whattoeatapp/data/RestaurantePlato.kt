@@ -8,7 +8,7 @@ import androidx.room.ForeignKey
     tableName = "RESTAURANT_PLATO",
     foreignKeys = [
         ForeignKey(
-            entity = Restaurante::class,
+            entity = Restaurant::class,
             parentColumns = ["id"],
             childColumns = ["restaurant_id"],
             onDelete = ForeignKey.CASCADE
@@ -25,5 +25,5 @@ data class RestaurantePlato(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val restaurant_id: Int,
-    val plato_id: Int
+    val dish_id: Int
 )

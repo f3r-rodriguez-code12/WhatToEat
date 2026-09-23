@@ -8,7 +8,7 @@ import androidx.room.ForeignKey
     tableName = "HORARIO",
     foreignKeys = [
         ForeignKey(
-            entity = Restaurante::class,
+            entity = Restaurant::class,
             parentColumns = ["id"],
             childColumns = ["restaurant_id"],
             onDelete = ForeignKey.CASCADE
@@ -24,7 +24,7 @@ import androidx.room.ForeignKey
 data class Horario(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val dia_id: Int,
+    val day_id: Int,
     val start: Int,  // Hora en minutos (ej. 600 = 10:00am)
     val end: Int,    // Hora en minutos (ej. 1080 = 6:00pm)
     val restaurant_id: Int

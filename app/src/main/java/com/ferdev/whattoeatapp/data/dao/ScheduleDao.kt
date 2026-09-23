@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.ferdev.whattoeatapp.data.Horario
 
 @Dao
-interface HorarioDao {
+interface ScheduleDao {
     @Insert
     suspend fun insert(horario: Horario)
 

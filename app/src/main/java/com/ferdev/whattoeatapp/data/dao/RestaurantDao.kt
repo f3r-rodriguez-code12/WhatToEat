@@ -3,13 +3,13 @@ package com.ferdev.whattoeatapp.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.ferdev.whattoeatapp.data.Restaurante
+import com.ferdev.whattoeatapp.data.Restaurant
 
 @Dao
-interface RestauranteDao {
+interface RestaurantDao {
     @Insert
-    suspend fun insert(restaurante: Restaurante): Long
+    suspend fun insert(restaurant: Restaurant): Long
 
     @Query("SELECT * FROM RESTAURANT")
-    suspend fun getAll(): List<Restaurante>
+    suspend fun getAll(): List<Restaurant>
 }

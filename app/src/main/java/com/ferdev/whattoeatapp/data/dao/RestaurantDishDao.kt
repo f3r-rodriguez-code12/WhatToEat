@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.ferdev.whattoeatapp.data.RestaurantePlato
 
 @Dao
-interface RestaurantePlatoDao {
+interface RestaurantDishDao {
     @Insert
     suspend fun insert(restaurantePlato: RestaurantePlato)
 
