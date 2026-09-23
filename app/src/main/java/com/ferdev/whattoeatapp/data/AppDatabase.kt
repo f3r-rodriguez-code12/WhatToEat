@@ -6,14 +6,14 @@ import androidx.room.RoomDatabase
 import android.content.Context
 import com.ferdev.whattoeatapp.data.dao.DayDao
 import com.ferdev.whattoeatapp.data.dao.HorarioDao
-import com.ferdev.whattoeatapp.data.dao.PlatoDao
+import com.ferdev.whattoeatapp.data.dao.DishDao
 import com.ferdev.whattoeatapp.data.dao.RestauranteDao
 import com.ferdev.whattoeatapp.data.dao.RestaurantePlatoDao
 
 @Database(
     entities = [
         Dia::class,
-        Plato::class,
+        Dish::class,
         Restaurante::class,
         Horario::class,
         RestaurantePlato::class
@@ -23,7 +23,7 @@ import com.ferdev.whattoeatapp.data.dao.RestaurantePlatoDao
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dayDao(): DayDao
-    abstract fun platoDao(): PlatoDao
+    abstract fun dishDao(): DishDao
     abstract fun restauranteDao(): RestauranteDao
     abstract fun horarioDao(): HorarioDao
     abstract fun restaurantePlatoDao(): RestaurantePlatoDao

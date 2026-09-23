@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.Horario
-import com.ferdev.whattoeatapp.data.Plato
+import com.ferdev.whattoeatapp.data.Dish
 import com.ferdev.whattoeatapp.data.Restaurante
 import com.ferdev.whattoeatapp.data.RestaurantePlato
 import kotlinx.coroutines.Dispatchers
@@ -41,12 +41,12 @@ fun RegisterScreen(
 
     val selectedDays = remember { mutableStateListOf<Int>() }
 
-    val availableDishes = remember { mutableStateListOf<Plato>() }
-    val selectedDishes = remember { mutableStateListOf<Plato>() }
+    val availableDishes = remember { mutableStateListOf<Dish>() }
+    val selectedDishes = remember { mutableStateListOf<Dish>() }
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
-            val platos = database.platoDao().getAll()
+            val platos = database.dishDao().getAll()
             withContext(Dispatchers.Main) {
                 availableDishes.clear()
                 availableDishes.addAll(platos)

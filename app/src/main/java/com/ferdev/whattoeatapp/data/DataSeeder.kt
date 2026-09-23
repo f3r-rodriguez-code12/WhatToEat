@@ -18,18 +18,18 @@ class DataSeeder(private val database: AppDatabase) {
             )
             database.dayDao().insertAll(dias)
 
-            val platos = listOf(
-                Plato(name = "Chicharron"),
-                Plato(name = "Charque"),
-                Plato(name = "Escabeche"),
-                Plato(name = "Planchita"),
-                Plato(name = "Huminta"),
-                Plato(name = "Pique"),
-                Plato(name = "Enrrollado"),
-                Plato(name = "Sushi"),
-                Plato(name = "Pescado a la parrilla")
+            val dishes = listOf(
+                Dish(name = "Chicharron"),
+                Dish(name = "Charque"),
+                Dish(name = "Escabeche"),
+                Dish(name = "Planchita"),
+                Dish(name = "Huminta"),
+                Dish(name = "Pique"),
+                Dish(name = "Enrrollado"),
+                Dish(name = "Sushi"),
+                Dish(name = "Pescado a la parrilla")
             )
-            database.platoDao().insertAll(platos)
+            database.dishDao().insertAll(dishes)
 
             val firstRestaurant = Restaurante(
                 name = "Planchitas Originales (El Prado)",

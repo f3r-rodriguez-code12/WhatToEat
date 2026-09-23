@@ -14,7 +14,7 @@ import androidx.room.ForeignKey
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Plato::class,
+            entity = Dish::class,
             parentColumns = ["id"],
             childColumns = ["plato_id"],
             onDelete = ForeignKey.CASCADE
