@@ -3,16 +3,16 @@ package com.ferdev.whattoeatapp.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.ferdev.whattoeatapp.data.Plato
+import com.ferdev.whattoeatapp.data.Dish
 
 @Dao
-interface PlatoDao {
+interface DishDao {
     @Insert
-    suspend fun insert(plato: Plato)
+    suspend fun insert(dish: Dish)
 
     @Insert
-    suspend fun insertAll(platos: List<Plato>)
+    suspend fun insertAll(dishes: List<Dish>)
 
     @Query("SELECT * FROM PLATO")
-    suspend fun getAll(): List<Plato>
+    suspend fun getAll(): List<Dish>
 }

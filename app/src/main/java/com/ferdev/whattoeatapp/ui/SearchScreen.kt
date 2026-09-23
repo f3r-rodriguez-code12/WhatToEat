@@ -9,12 +9,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdev.whattoeatapp.data.AppDatabase
-import com.ferdev.whattoeatapp.data.Plato
+import com.ferdev.whattoeatapp.data.Dish
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -23,22 +22,20 @@ import kotlinx.coroutines.withContext
 fun SearchScreen(
     database: AppDatabase,
     onBack: () -> Unit,
-    onSearchResults: (day: Int?, desdeTime: String, hastaTime: String, platosIds: List<Int>) -> Unit
+    onSearchResults: (day: Int?, fromTime: String, toTime: String, dishIds: List<Int>) -> Unit
 ) {
-    val context = LocalContext.current
-
     var selectedDay by remember { mutableStateOf<Int?>(null) }
-    var desdeTime by remember { mutableStateOf("") }
-    var hastaTime by remember { mutableStateOf("") }
-    val selectedDishes = remember { mutableStateListOf<Plato>() }
-    val availableDishes = remember { mutableStateListOf<Plato>() }
+    var fromTime by remember { mutableStateOf("") }
+    var toTime by remember { mutableStateOf("") }
+    val selectedDishes = remember { mutableStateListOf<Dish>() }
+    val availableDishes = remember { mutableStateListOf<Dish>() }
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
-            val platos = database.platoDao().getAll()
+            val dishes = database.dishDao().getAll()
             withContext(Dispatchers.Main) {
                 availableDishes.clear()
-                availableDishes.addAll(platos)
+                availableDishes.addAll(dishes)
             }
         }
     }
@@ -66,12 +63,12 @@ fun SearchScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "Which dia?",
+                text = "Which day?",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            val dias = listOf(
+            val days = listOf(
                 1 to "Mon", 2 to "Tue", 3 to "Wed", 4 to "Thu",
                 5 to "Fri", 6 to "Sat", 7 to "Sun"
             )
@@ -82,7 +79,7 @@ fun SearchScreen(
                     .padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                dias.forEach { (id, label) ->
+                days.forEach { (id, label) ->
                     FilterChip(
                         selected = selectedDay == id,
                         onClick = {
@@ -94,7 +91,7 @@ fun SearchScreen(
             }
 
             Text(
-                text = "What hora? (optional)",
+                text = "What time? (optional)",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -106,21 +103,21 @@ fun SearchScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TimePickerField(
-                    value = desdeTime,
-                    onValueChange = { desdeTime = it },
-                    label = "Desde",
+                    value = fromTime,
+                    onValueChange = { fromTime = it },
+                    label = "From",
                     modifier = Modifier.weight(1f)
                 )
                 TimePickerField(
-                    value = hastaTime,
-                    onValueChange = { hastaTime = it },
-                    label = "Hasta",
+                    value = toTime,
+                    onValueChange = { toTime = it },
+                    label = "To",
                     modifier = Modifier.weight(1f)
                 )
             }
 
             Text(
-                text = "What do you quieres to comer? (optional)",
+                text = "What do you want to eat? (optional)",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -150,8 +147,8 @@ fun SearchScreen(
                 onClick = {
                     onSearchResults(
                         selectedDay,
-                        desdeTime,
-                        hastaTime,
+                        fromTime,
+                        toTime,
                         selectedDishes.map { it.id }
                     )
                 },

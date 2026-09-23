@@ -199,7 +199,7 @@ suspend fun performSearch(
             }
 
             val relations = database.restaurantePlatoDao().getByRestaurant(rest.id)
-            val allDishes = database.platoDao().getAll()
+            val allDishes = database.dishDao().getAll()
             val platosText = relations.mapNotNull { rel ->
                 allDishes.find { it.id == rel.plato_id }?.name
             }.joinToString(", ")
