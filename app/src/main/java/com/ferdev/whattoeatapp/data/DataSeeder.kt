@@ -45,7 +45,7 @@ class DataSeeder(private val database: AppDatabase) {
             )
             val idSecondRest = database.restaurantDao().insert(secondRestaurant).toInt()
 
-            val horariosFirstRests = listOf(
+            val firstRestSchedules = listOf(
                 Schedule(day_id = 2, start = 660, end = 1290, restaurant_id = idFirstRest),
                 Schedule(day_id = 3, start = 660, end = 1290, restaurant_id = idFirstRest),
                 Schedule(day_id = 4, start = 660, end = 1290, restaurant_id = idFirstRest),
@@ -53,30 +53,30 @@ class DataSeeder(private val database: AppDatabase) {
                 Schedule(day_id = 6, start = 660, end = 1290, restaurant_id = idFirstRest),
                 Schedule(day_id = 7, start = 660, end = 1290, restaurant_id = idFirstRest)
             )
-            database.scheduleDao().insertAll(horariosFirstRests)
+            database.scheduleDao().insertAll(firstRestSchedules)
 
-            val horariosSecondRests = listOf(
+            val secondRestSchedules = listOf(
                 Schedule(day_id = 1, start = 600, end = 1200, restaurant_id = idSecondRest),
                 Schedule(day_id = 5, start = 720, end = 1200, restaurant_id = idSecondRest),
                 Schedule(day_id = 6, start = 660, end = 1200, restaurant_id = idSecondRest),
                 Schedule(day_id = 7, start = 600, end = 1200, restaurant_id = idSecondRest)
             )
-            database.scheduleDao().insertAll(horariosSecondRests)
+            database.scheduleDao().insertAll(secondRestSchedules)
 
-            val firstRestRelationship = listOf(
+            val firstRestDishes = listOf(
                 RestaurantDish(restaurant_id = idFirstRest, dish_id = 2),
                 RestaurantDish(restaurant_id = idFirstRest, dish_id = 4),
                 RestaurantDish(restaurant_id = idFirstRest, dish_id = 6)
             )
-            database.restaurantDishDao().insertAll(firstRestRelationship)
+            database.restaurantDishDao().insertAll(firstRestDishes)
 
-            val secondRestRelationship = listOf(
+            val secondRestDishes = listOf(
                 RestaurantDish(restaurant_id = idSecondRest, dish_id = 1),
                 RestaurantDish(restaurant_id = idSecondRest, dish_id = 3),
                 RestaurantDish(restaurant_id = idSecondRest, dish_id = 5),
                 RestaurantDish(restaurant_id = idSecondRest, dish_id = 7)
             )
-            database.restaurantDishDao().insertAll(secondRestRelationship)
+            database.restaurantDishDao().insertAll(secondRestDishes)
         }
     }
 }
