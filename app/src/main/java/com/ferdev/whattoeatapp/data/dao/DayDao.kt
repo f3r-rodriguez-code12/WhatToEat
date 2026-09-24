@@ -13,9 +13,9 @@ interface DayDao {
     @Insert
     suspend fun insertAll(days: List<Day>)
 
-    @Query("SELECT * FROM DIA")
+    @Query("SELECT * FROM DAY")
     suspend fun getAll(): List<Day>
 
-    @Query("SELECT COUNT(*) FROM DIA")
+    @Query("SELECT COUNT(*) FROM DAY")
     suspend fun getCount(): Int
 }

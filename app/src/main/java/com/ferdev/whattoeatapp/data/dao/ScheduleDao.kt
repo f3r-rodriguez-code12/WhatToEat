@@ -13,6 +13,6 @@ interface ScheduleDao {
     @Insert
     suspend fun insertAll(schedules: List<Schedule>)
 
-    @Query("SELECT * FROM HORARIO WHERE restaurant_id = :restaurantId")
+    @Query("SELECT * FROM SCHEDULE WHERE restaurant_id = :restaurantId")
     suspend fun getByRestaurant(restaurantId: Int): List<Schedule>
 }

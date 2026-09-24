@@ -13,6 +13,6 @@ interface DishDao {
     @Insert
     suspend fun insertAll(dishes: List<Dish>)
 
-    @Query("SELECT * FROM PLATO")
+    @Query("SELECT * FROM DISH")
     suspend fun getAll(): List<Dish>
 }

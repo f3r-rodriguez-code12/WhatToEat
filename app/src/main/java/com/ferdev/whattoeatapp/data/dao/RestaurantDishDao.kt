@@ -13,6 +13,6 @@ interface RestaurantDishDao {
     @Insert
     suspend fun insertAll(relationships: List<RestaurantDish>)
 
-    @Query("SELECT * FROM RESTAURANT_PLATO WHERE restaurant_id = :restaurantId")
+    @Query("SELECT * FROM RESTAURANT_DISH WHERE restaurant_id = :restaurantId")
     suspend fun getByRestaurant(restaurantId: Int): List<RestaurantDish>
 }
