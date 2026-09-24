@@ -12,7 +12,7 @@ import com.ferdev.whattoeatapp.data.dao.RestaurantDishDao
 
 @Database(
     entities = [
-        Dia::class,
+        Day::class,
         Dish::class,
         Restaurant::class,
         Schedule::class,

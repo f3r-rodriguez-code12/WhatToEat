@@ -7,16 +7,16 @@ import kotlinx.coroutines.launch
 class DataSeeder(private val database: AppDatabase) {
     fun seedData() {
         CoroutineScope(Dispatchers.IO).launch {
-            val dias = listOf(
-                Dia(1, "Mon"),
-                Dia(2, "Tue"),
-                Dia(3, "Wed"),
-                Dia(4, "Thu"),
-                Dia(5, "Fri"),
-                Dia(6, "Sat"),
-                Dia(7, "Sun")
+            val days = listOf(
+                Day(1, "Mon"),
+                Day(2, "Tue"),
+                Day(3, "Wed"),
+                Day(4, "Thu"),
+                Day(5, "Fri"),
+                Day(6, "Sat"),
+                Day(7, "Sun")
             )
-            database.dayDao().insertAll(dias)
+            database.dayDao().insertAll(days)
 
             val dishes = listOf(
                 Dish(name = "Chicharron"),
