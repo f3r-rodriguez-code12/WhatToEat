@@ -34,13 +34,13 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
+                val dbInstance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "restaurant_db"
                 ).build()
-                INSTANCE = instance
-                instance
+                INSTANCE = dbInstance
+                dbInstance
             }
         }
     }
