@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "RESTAURANT_PLATO",
+    tableName = "RESTAURANT_DISH",
     foreignKeys = [
         ForeignKey(
             entity = Restaurant::class,
@@ -16,7 +16,7 @@ import androidx.room.ForeignKey
         ForeignKey(
             entity = Dish::class,
             parentColumns = ["id"],
-            childColumns = ["plato_id"],
+            childColumns = ["dish_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]
