@@ -1,8 +1,9 @@
 package com.ferdev.whattoeatapp.data
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "SCHEDULE",
@@ -19,6 +20,10 @@ import androidx.room.ForeignKey
             childColumns = ["day_id"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["restaurant_id"]),
+        Index(value = ["day_id"])
     ]
 )
 data class Schedule(
