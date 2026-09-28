@@ -72,4 +72,7 @@ dependencies {
 
     // Material Icons
     implementation(libs.androidx.compose.material.icons.extended)
+
+    // App Compat
+    implementation(libs.androidx.appcompat)
 }
