@@ -1,16 +1,23 @@
 package com.ferdev.whattoeatapp.ui
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
+import com.ferdev.whattoeatapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,10 +25,40 @@ fun HomeScreen(
     onGoToRegister: () -> Unit,
     onGoToSearch: () -> Unit
 ) {
+    val context = LocalContext.current
+    var showLangMenu by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("What To Eat App") }
+                title = { Text(stringResource(R.string.home_title)) },
+                actions = {
+                    IconButton(onClick = { showLangMenu = true }) {
+                        Icon(
+                            imageVector = Icons.Default.Language,
+                            contentDescription = stringResource(R.string.home_language)
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showLangMenu,
+                        onDismissRequest = { showLangMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.common_language_english)) },
+                            onClick = {
+                                changeLanguage(context, "en")
+                                showLangMenu = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.common_language_spanish)) },
+                            onClick = {
+                                changeLanguage(context, "es")
+                                showLangMenu = false
+                            }
+                        )
+                    }
+                }
             )
         }
     ) { padding ->
@@ -34,14 +71,14 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "🍽️ What To Eat",
+                text = "🍽️ " + stringResource(R.string.home_title),
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
             Text(
-                text = "What do you want to eat today?",
+                text = stringResource(R.string.home_subtitle),
                 fontSize = 16.sp,
                 modifier = Modifier.padding(bottom = 48.dp)
             )
@@ -54,7 +91,7 @@ fun HomeScreen(
             ) {
                 Icon(Icons.Default.Search, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Search Restaurants", fontSize = 18.sp)
+                Text(stringResource(R.string.home_search_button), fontSize = 18.sp)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -67,8 +104,17 @@ fun HomeScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Register Restaurant", fontSize = 18.sp)
+                Text(stringResource(R.string.home_register_button), fontSize = 18.sp)
             }
         }
     }
+}
+
+private fun changeLanguage(context: Context, langCode: String) {
+    val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    prefs.edit().putString("app_language", langCode).apply()
+
+    AppCompatDelegate.setApplicationLocales(
+        LocaleListCompat.forLanguageTags(langCode)
+    )
 }
