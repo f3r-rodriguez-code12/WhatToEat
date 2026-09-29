@@ -9,11 +9,13 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.Dish
+import com.ferdev.whattoeatapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -43,7 +45,7 @@ fun SearchScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Search Restaurants") },
+                title = { Text(stringResource(R.string.search_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -63,14 +65,19 @@ fun SearchScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "Which day?",
+                text = stringResource(R.string.search_day_label),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
             val days = listOf(
-                1 to "Mon", 2 to "Tue", 3 to "Wed", 4 to "Thu",
-                5 to "Fri", 6 to "Sat", 7 to "Sun"
+                1 to stringResource(R.string.day_mon),
+                2 to stringResource(R.string.day_tue),
+                3 to stringResource(R.string.day_wed),
+                4 to stringResource(R.string.day_thu),
+                5 to stringResource(R.string.day_fri),
+                6 to stringResource(R.string.day_sat),
+                7 to stringResource(R.string.day_sun)
             )
 
             FlowRow(
@@ -91,7 +98,7 @@ fun SearchScreen(
             }
 
             Text(
-                text = "What time? (optional)",
+                text = stringResource(R.string.search_time_label),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -105,19 +112,19 @@ fun SearchScreen(
                 TimePickerField(
                     value = fromTime,
                     onValueChange = { fromTime = it },
-                    label = "From",
+                    label = stringResource(R.string.search_from_label),
                     modifier = Modifier.weight(1f)
                 )
                 TimePickerField(
                     value = toTime,
                     onValueChange = { toTime = it },
-                    label = "To",
+                    label = stringResource(R.string.search_to_label),
                     modifier = Modifier.weight(1f)
                 )
             }
 
             Text(
-                text = "What do you want to eat? (optional)",
+                text = stringResource(R.string.search_dishes_label),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -158,7 +165,7 @@ fun SearchScreen(
             ) {
                 Icon(Icons.Default.Search, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("SEARCH!", fontSize = 18.sp)
+                Text(stringResource(R.string.search_button), fontSize = 18.sp)
             }
         }
     }
