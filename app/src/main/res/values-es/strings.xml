@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">What To Eat</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">What To Eat</string>
+    <string name="home_subtitle">¿Qué quieres comer hoy?</string>
+    <string name="home_search_button">Buscar Restaurantes</string>
+    <string name="home_register_button">Registrar Restaurante</string>
+    <string name="home_language">Idioma</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">Registrar Restaurante</string>
+    <string name="register_name_label">Nombre del restaurante</string>
+    <string name="register_address_label">Dirección</string>
+    <string name="register_phone_label">Teléfono</string>
+    <string name="register_webpage_label">Sitio web (opcional)</string>
+    <string name="register_days_label">Días de atención:</string>
+    <string name="register_same_hours">Mismo horario para todos los días seleccionados</string>
+    <string name="register_hours_label">Horario de atención:</string>
+    <string name="register_opens_label">Apertura</string>
+    <string name="register_closes_label">Cierre</string>
+    <string name="register_dishes_label">Platos que sirve:</string>
+    <string name="register_add_dish">+ Agregar nuevo plato</string>
+    <string name="register_save_button">Guardar Restaurante</string>
+    <string name="register_success">¡Restaurante guardado exitosamente!</string>
+    <string name="register_error_fields">Por favor completa todos los campos</string>
+    <string name="register_error_days">Selecciona al menos un día</string>
+    <string name="register_error_dishes">Selecciona al menos un plato</string>
+    <string name="register_error_time_format">Formato de hora inválido (usa HH:MM)</string>
+    <string name="register_error_time_order">La hora de apertura debe ser menor a la de cierre</string>
+
+    <!-- Search Screen -->
+    <string name="search_title">Buscar Restaurantes</string>
+    <string name="search_day_label">¿Qué día?</string>
+    <string name="search_time_label">¿A qué hora? (opcional)</string>
+    <string name="search_from_label">Desde</string>
+    <string name="search_to_label">Hasta</string>
+    <string name="search_dishes_label">¿Qué quieres comer? (opcional)</string>
+    <string name="search_button">BUSCAR</string>
+
+    <!-- Results Screen -->
+    <string name="results_title">Resultados</string>
+    <string name="results_face">😔 </string>
+    <string name="results_empty">No se encontraron restaurantes</string>
+    <string name="results_empty_hint">Intenta con filtros diferentes</string>
+    <string name="results_loading">Buscando...</string>
+    <string name="results_address_prefix">📍</string>
+    <string name="results_phone_prefix">📞</string>
+    <string name="results_schedule_prefix">🕐</string>
+    <string name="results_dishes_prefix">🍽️</string>
+    <string name="results_webpage_prefix">🌐</string>
+
+    <!-- Days -->
+    <string name="day_mon">Lun</string>
+    <string name="day_tue">Mar</string>
+    <string name="day_wed">Mié</string>
+    <string name="day_thu">Jue</string>
+    <string name="day_fri">Vie</string>
+    <string name="day_sat">Sáb</string>
+    <string name="day_sun">Dom</string>
+
+    <!-- Time Picker -->
+    <string name="time_picker_title">Seleccionar hora</string>
+    <string name="time_picker_ok">OK</string>
+    <string name="time_picker_cancel">Cancelar</string>
+    <string name="time_picker_placeholder">HH:MM</string>
+
+    <!-- Add Dish Dialog -->
+    <string name="add_dish_title">Agregar nuevo plato</string>
+    <string name="add_dish_label">Nombre del plato</string>
+    <string name="add_dish_add">Agregar</string>
+    <string name="add_dish_cancel">Cancelar</string>
+    
+    <!-- Common -->
+    <string name="common_back">Volver</string>
+    <string name="common_language_english">English</string>
+    <string name="common_language_spanish">Español</string>
+</resources>

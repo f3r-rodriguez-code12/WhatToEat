@@ -1,3 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WhatToEatApp</string>
+    <!-- App name -->
+    <string name="app_name">What To Eat</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">What To Eat</string>
+    <string name="home_subtitle">What do you want to eat today?</string>
+    <string name="home_search_button">Search Restaurants</string>
+    <string name="home_register_button">Register Restaurant</string>
+    <string name="home_language">Language</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">Register Restaurant</string>
+    <string name="register_name_label">Restaurant name</string>
+    <string name="register_address_label">Address</string>
+    <string name="register_phone_label">Phone</string>
+    <string name="register_webpage_label">Website (optional)</string>
+    <string name="register_days_label">Days open:</string>
+    <string name="register_same_hours">Same hours for all selected days</string>
+    <string name="register_hours_label">Opening hours:</string>
+    <string name="register_opens_label">Opens</string>
+    <string name="register_closes_label">Closes</string>
+    <string name="register_dishes_label">Dishes served:</string>
+    <string name="register_add_dish">+ Add new dish</string>
+    <string name="register_save_button">Save Restaurant</string>
+    <string name="register_success">Restaurant saved successfully!</string>
+    <string name="register_error_fields">Please fill all fields</string>
+    <string name="register_error_days">Select at least one day</string>
+    <string name="register_error_dishes">Select at least one dish</string>
+    <string name="register_error_time_format">Invalid time format (use HH:MM)</string>
+    <string name="register_error_time_order">Opening time must be before closing time</string>
+
+    <!-- Search Screen -->
+    <string name="search_title">Search Restaurants</string>
+    <string name="search_day_label">Which day?</string>
+    <string name="search_time_label">What time? (optional)</string>
+    <string name="search_from_label">From</string>
+    <string name="search_to_label">To</string>
+    <string name="search_dishes_label">What do you want to eat? (optional)</string>
+    <string name="search_button">SEARCH</string>
+
+    <!-- Results Screen -->
+    <string name="results_title">Results</string>
+    <string name="results_face">😔 </string>
+    <string name="results_empty">No restaurants found</string>
+    <string name="results_empty_hint">Try different filters</string>
+    <string name="results_loading">Searching...</string>
+    <string name="results_address_prefix">📍</string>
+    <string name="results_phone_prefix">📞</string>
+    <string name="results_schedule_prefix">🕐</string>
+    <string name="results_dishes_prefix">🍽️</string>
+    <string name="results_webpage_prefix">🌐</string>
+
+    <!-- Days -->
+    <string name="day_mon">Mon</string>
+    <string name="day_tue">Tue</string>
+    <string name="day_wed">Wed</string>
+    <string name="day_thu">Thu</string>
+    <string name="day_fri">Fri</string>
+    <string name="day_sat">Sat</string>
+    <string name="day_sun">Sun</string>
+
+    <!-- Time Picker -->
+    <string name="time_picker_title">Select time</string>
+    <string name="time_picker_ok">OK</string>
+    <string name="time_picker_cancel">Cancel</string>
+    <string name="time_picker_placeholder">HH:MM</string>
+
+    <!-- Add Dish Dialog -->
+    <string name="add_dish_title">Add new dish</string>
+    <string name="add_dish_label">Dish name</string>
+    <string name="add_dish_add">Add</string>
+    <string name="add_dish_cancel">Cancel</string>
+    
+    <!-- Common -->
+    <string name="common_back">Back</string>
+    <string name="common_language_english">English</string>
+    <string name="common_language_spanish">Español</string>
 </resources>
