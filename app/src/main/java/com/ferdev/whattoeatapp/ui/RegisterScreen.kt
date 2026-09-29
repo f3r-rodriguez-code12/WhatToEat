@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ferdev.whattoeatapp.data.AppDatabase
@@ -18,6 +19,7 @@ import com.ferdev.whattoeatapp.data.Schedule
 import com.ferdev.whattoeatapp.data.Dish
 import com.ferdev.whattoeatapp.data.Restaurant
 import com.ferdev.whattoeatapp.data.RestaurantDish
+import com.ferdev.whattoeatapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,12 +60,12 @@ fun RegisterScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Register Restaurant") },
+                title = { Text(stringResource(R.string.register_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.common_back)
                         )
                     }
                 }
@@ -81,7 +83,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = restaurantName,
                 onValueChange = { restaurantName = it },
-                label = { Text("Restaurant name") },
+                label = { Text(stringResource(R.string.register_name_label)) },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
                 singleLine = true
             )
@@ -89,7 +91,7 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = restaurantAddress,
                 onValueChange = { restaurantAddress = it },
-                label = { Text("Address") },
+                label = { Text(stringResource(R.string.register_address_label)) },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
                 singleLine = true
             )
@@ -97,20 +99,25 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = restaurantPhone,
                 onValueChange = { restaurantPhone = it },
-                label = { Text("Phone") },
+                label = { Text(stringResource(R.string.register_phone_label)) },
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                 singleLine = true
             )
 
             Text(
-                text = "Operating days:",
+                text = stringResource(R.string.register_days_label),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
 
             val days = listOf(
-                1 to "Mon", 2 to "Tue", 3 to "Wed", 4 to "Thu",
-                5 to "Fri", 6 to "Sat", 7 to "Sun"
+                1 to stringResource(R.string.day_mon),
+                2 to stringResource(R.string.day_tue),
+                3 to stringResource(R.string.day_wed),
+                4 to stringResource(R.string.day_thu),
+                5 to stringResource(R.string.day_fri),
+                6 to stringResource(R.string.day_sat),
+                7 to stringResource(R.string.day_sun)
             )
 
             FlowRow(
@@ -133,7 +140,7 @@ fun RegisterScreen(
             }
 
             Text(
-                text = "Operating hours (HH:MM format):",
+                text = stringResource(R.string.register_hours_label),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
@@ -145,19 +152,19 @@ fun RegisterScreen(
                 TimePickerField(
                     value = startHour,
                     onValueChange = { startHour = it },
-                    label = "Opening",
+                    label = stringResource(R.string.register_opens_label),
                     modifier = Modifier.weight(1f)
                 )
                 TimePickerField(
                     value = endHour,
                     onValueChange = { endHour = it },
-                    label = "Closing",
+                    label = stringResource(R.string.register_closes_label),
                     modifier = Modifier.weight(1f)
                 )
             }
 
             Text(
-                text = "Served dishes:",
+                text = stringResource(R.string.register_dishes_label),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
             )
@@ -181,20 +188,27 @@ fun RegisterScreen(
                 }
             }
 
+            val errorFieldsText = stringResource(id = R.string.register_error_fields)
+            val errorDaysText = stringResource(id = R.string.register_error_days)
+            val errorDishesText = stringResource(id = R.string.register_error_dishes)
+            val errorTimeFormatText = stringResource(id = R.string.register_error_time_format)
+            val errorTimeOrderText = stringResource(id = R.string.register_error_time_order)
+            val successText = stringResource(id = R.string.register_success)
+
             Button(
                 onClick = {
                     if (restaurantName.isBlank() || restaurantAddress.isBlank() || restaurantPhone.isBlank() ||
                         startHour.isBlank() || endHour.isBlank()
                     ) {
-                        Toast.makeText(context, "Complete all the fields", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, errorFieldsText, Toast.LENGTH_SHORT).show()
                         return@Button
                     }
                     if (selectedDays.isEmpty()) {
-                        Toast.makeText(context, "Select at least one day", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, errorDaysText, Toast.LENGTH_SHORT).show()
                         return@Button
                     }
                     if (selectedDishes.isEmpty()) {
-                        Toast.makeText(context, "Select at least one dish", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, errorDishesText, Toast.LENGTH_SHORT).show()
                         return@Button
                     }
 
@@ -202,11 +216,11 @@ fun RegisterScreen(
                     val endMinutes = hoursToMinutes(endHour)
 
                     if (startMinutes == -1 || endMinutes == -1) {
-                        Toast.makeText(context, "Invalid time format (use HH:MM)", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, errorTimeFormatText, Toast.LENGTH_SHORT).show()
                         return@Button
                     }
                     if (startMinutes >= endMinutes) {
-                        Toast.makeText(context, "Opening time must be earlier than closing time", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, errorTimeOrderText, Toast.LENGTH_SHORT).show()
                         return@Button
                     }
 
@@ -229,7 +243,7 @@ fun RegisterScreen(
                             }
 
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(context, "Restaurant saved successfully!", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, successText, Toast.LENGTH_LONG).show()
 
                                 restaurantName = ""
                                 restaurantAddress = ""
@@ -248,7 +262,7 @@ fun RegisterScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Save Restaurant")
+                Text(stringResource(R.string.register_save_button))
             }
         }
     }
