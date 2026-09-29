@@ -1,5 +1,6 @@
 package com.ferdev.whattoeatapp.ui
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,11 +9,14 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ferdev.whattoeatapp.data.AppDatabase
 import com.ferdev.whattoeatapp.data.Restaurant
+import com.ferdev.whattoeatapp.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -35,24 +39,25 @@ fun ResultsScreen(
     dishIds: List<Int>,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
     var results by remember { mutableStateOf<List<SearchResult>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(day, fromTime, toTime, dishIds) {
         isLoading = true
-        results = performSearch(database, day, fromTime, toTime, dishIds)
+        results = performSearch(database, day, fromTime, toTime, dishIds, context)
         isLoading = false
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Results (${results.size})") },
+                title = { Text("${stringResource(R.string.results_title)} (${results.size})") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.common_back)
                         )
                     }
                 }
@@ -79,18 +84,18 @@ fun ResultsScreen(
                         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "😔",
+                            text = stringResource(R.string.results_face),
                             fontSize = 64.sp
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "No restaurants found",
+                            text = stringResource(R.string.results_empty),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Try different filters!",
+                            text = stringResource(R.string.results_empty_hint),
                             fontSize = 14.sp
                         )
                     }
@@ -124,11 +129,11 @@ fun ResultCard(result: SearchResult) {
                 fontSize = 18.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "📍 ${result.restaurant.address}", fontSize = 14.sp)
-            Text(text = "📞 ${result.restaurant.phone}", fontSize = 14.sp)
+            Text(text = "${stringResource(R.string.results_address_prefix)} ${result.restaurant.address}", fontSize = 14.sp)
+            Text(text = "${stringResource(R.string.results_phone_prefix)} ${result.restaurant.phone}", fontSize = 14.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "🕐 ${result.schedulesText}", fontSize = 14.sp)
-            Text(text = "🍽️ ${result.dishesText}", fontSize = 14.sp)
+            Text(text = "${stringResource(R.string.results_schedule_prefix)} ${result.schedulesText}", fontSize = 14.sp)
+            Text(text = "${stringResource(R.string.results_dishes_prefix)} ${result.dishesText}", fontSize = 14.sp)
             Spacer(modifier = Modifier.height(4.dp))
         }
     }
@@ -142,7 +147,8 @@ suspend fun performSearch(
     day: Int?,
     fromTime: String,
     toTime: String,
-    dishIds: List<Int>
+    dishIds: List<Int>,
+    context: Context
 ): List<SearchResult> {
     return withContext(Dispatchers.IO) {
         val results = mutableListOf<SearchResult>()
@@ -195,7 +201,7 @@ suspend fun performSearch(
 
             val schedules = database.scheduleDao().getByRestaurant(rest.id)
             val schedulesText = schedules.joinToString(", ") { s ->
-                val dayName = getDayName(s.day_id)
+                val dayName = getDayName(context, s.day_id)
                 "$dayName: ${minutesToTime(s.start)}-${minutesToTime(s.end)}"
             }
 
@@ -239,8 +245,13 @@ private fun minutesToTime(min: Int): String {
     return String.format(Locale.getDefault(), "%02d:%02d", h, m)
 }
 
-private fun getDayName(id: Int): String = when (id) {
-    1 -> "Mon"; 2 -> "Tue"; 3 -> "Wed"; 4 -> "Thu"
-    5 -> "Fri"; 6 -> "Sat"; 7 -> "Sun"
+private fun getDayName(context: Context, id: Int): String = when (id) {
+    1 -> context.getString(R.string.day_mon)
+    2 -> context.getString(R.string.day_tue)
+    3 -> context.getString(R.string.day_wed)
+    4 -> context.getString(R.string.day_thu)
+    5 -> context.getString(R.string.day_fri)
+    6 -> context.getString(R.string.day_sat)
+    7 -> context.getString(R.string.day_sun)
     else -> "?"
 }
