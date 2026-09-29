@@ -1,7 +1,7 @@
 package com.ferdev.whattoeatapp.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
+import android.os.Build
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.LocaleListCompat
 import com.ferdev.whattoeatapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,7 +113,18 @@ private fun changeLanguage(context: Context, langCode: String) {
     val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     prefs.edit().putString("app_language", langCode).apply()
 
-    AppCompatDelegate.setApplicationLocales(
-        LocaleListCompat.forLanguageTags(langCode)
-    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val localeManager = context.getSystemService(Context.LOCALE_SERVICE) as android.app.LocaleManager
+        val localeList = android.os.LocaleList(java.util.Locale.forLanguageTag(langCode))
+        localeManager.applicationLocales = localeList
+    } else {
+        val locale = java.util.Locale(langCode)
+        java.util.Locale.setDefault(locale)
+        val config = android.content.res.Configuration(context.resources.configuration)
+        config.setLocale(locale)
+
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+
+        (context as? android.app.Activity)?.recreate()
+    }
 }

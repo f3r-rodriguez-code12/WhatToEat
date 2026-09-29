@@ -1,12 +1,11 @@
 package com.ferdev.whattoeatapp
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -118,11 +117,18 @@ class MainActivity : ComponentActivity() {
 
     private fun applySavedLanguage() {
         val prefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val savedLang = prefs.getString("app_language", null)
-        if (savedLang != null) {
-            AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(savedLang)
-            )
+        val savedLang = prefs.getString("app_language", null) ?: return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val localeManager = getSystemService(Context.LOCALE_SERVICE) as android.app.LocaleManager
+            val localeList = android.os.LocaleList(java.util.Locale.forLanguageTag(savedLang))
+            localeManager.applicationLocales = localeList
+        } else {
+            val locale = java.util.Locale(savedLang)
+            java.util.Locale.setDefault(locale)
+            val config = android.content.res.Configuration(resources.configuration)
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
         }
     }
 }
