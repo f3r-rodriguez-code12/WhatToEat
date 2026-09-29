@@ -7,8 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.ferdev.whattoeatapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,15 +30,21 @@ fun TimePickerField(
             value = value,
             onValueChange = { },
             label = { Text(label) },
-            placeholder = { Text("HH:MM") },
+            placeholder = { Text(stringResource(R.string.time_picker_placeholder)) },
             readOnly = true,
             enabled = false,
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Default.Schedule,
-                    contentDescription = "Pick time"
+                    contentDescription = stringResource(R.string.time_picker_title)
                 )
             },
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(
@@ -87,14 +96,14 @@ fun TimePickerDialog(
         onDismissRequest = onDismiss,
         title = {
             Text(
-                text = "Select time",
+                text = stringResource(R.string.time_picker_title),
                 fontWeight = FontWeight.Bold
             )
         },
         text = {
             Box(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
+                contentAlignment = Alignment.Center
             ) {
                 TimePicker(state = timePickerState)
             }
@@ -106,12 +115,12 @@ fun TimePickerDialog(
                 val formatted = String.format("%02d:%02d", hour, minute)
                 onConfirm(formatted)
             }) {
-                Text("OK")
+                Text(stringResource(R.string.time_picker_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.time_picker_cancel))
             }
         }
     )
